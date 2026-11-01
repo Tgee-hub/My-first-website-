@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f4f0dc">
+    <title>Tgee's Fact Club</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+        color: #203d2d;
+        background: #f4f0dc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        padding: 2rem 1.25rem;
+        background:
+          radial-gradient(ellipse at 12% 15%, #dce8cf 0, transparent 34%),
+          radial-gradient(ellipse at 90% 86%, #f2dfaa 0, transparent 32%),
+          #f4f0dc;
+      }
+
+      main {
+        width: min(100%, 680px);
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 0.8rem;
+        color: #a47719;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.6rem, 8vw, 4.8rem);
+        letter-spacing: -0.07em;
+        line-height: 1;
+      }
+
+      .intro {
+        margin: 1rem 0 2.2rem;
+        color: #536b57;
+        font-size: 1.05rem;
+      }
+
+      .fact-card {
+        min-height: 290px;
+        display: grid;
+        align-content: center;
+        justify-items: center;
+        gap: 1rem;
+        padding: clamp(2rem, 7vw, 4rem);
+        border: 1px solid #e5d39a;
+        border-radius: 28px;
+        background: rgb(255 255 255 / 88%);
+        box-shadow: 0 24px 70px rgb(43 67 43 / 12%);
+      }
+
+      .fact-icon {
+        font-size: 3rem;
+        line-height: 1;
+      }
+
+      .category {
+        margin: 0;
+        color: #a47719;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .fact {
+        max-width: 520px;
+        margin: 0;
+        font-size: clamp(1.35rem, 4vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.035em;
+        line-height: 1.4;
+      }
+
+      button {
+        margin-top: 1.8rem;
+        padding: 0.95rem 1.5rem;
+        border: 0;
+        border-radius: 999px;
+        background: #315a3e;
+        color: white;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 160ms ease, transform 160ms ease;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+        background: #244832;
+      }
+
+      button:focus-visible {
+        outline: 3px solid #c99a2e;
+        outline-offset: 4px;
+      }
+
+      .hint {
+        margin: 1rem 0 0;
+        color: #74816d;
+        font-size: 0.85rem;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          scroll-behavior: auto !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">A tiny dose of wonder</p>
+      <h1>Tgee's Fact Club</h1>
+      <p class="intro">One delightfully random fact, just for you.</p>
+
+      <section class="fact-card" aria-label="Random fun fact">
+        <span class="fact-icon" id="fact-icon" aria-hidden="true">✨</span>
+        <p class="category" id="fact-category">A little surprise</p>
+        <p class="fact" id="fact-text" aria-live="polite">Picking a fun fact for you…</p>
+      </section>
+
+      <button type="button" id="another-fact">Surprise me again <span aria-hidden="true">↗</span></button>
+      <p class="hint">There’s always something new to learn.</p>
+    </main>
+
+    <script>
+      const facts = [
+        { icon: "🐙", category: "Ocean life", text: "Octopuses have three hearts, and their blood is blue." },
+        { icon: "🪐", category: "Space", text: "A day on Venus is longer than a year on Venus." },
+        { icon: "🍓", category: "Plants", text: "Botanically speaking, a strawberry isn’t a true berry—but a banana is." },
+        { icon: "🦈", category: "Prehistoric life", text: "Sharks have been around longer than trees." },
+        { icon: "🧊", category: "Antarctica", text: "Antarctica is the world’s largest desert." },
+        { icon: "🦦", category: "Animal groups", text: "A group of otters resting together is called a raft." },
+        { icon: "🌕", category: "The Moon", text: "The Moon drifts about 3.8 centimeters farther from Earth each year." },
+        { icon: "🦩", category: "Animal groups", text: "A group of flamingos is called a flamboyance." },
+        { icon: "🧬", category: "Your body", text: "The cornea is the only part of the human body with no blood supply." },
+        { icon: "🐝", category: "Tiny but mighty", text: "Honeybees communicate where food is with a dance called the waggle dance." },
+        { icon: "🌳", category: "Nature", text: "Some trees can communicate with neighboring plants through underground fungal networks." },
+        { icon: "🦄", category: "Scotland", text: "The unicorn is Scotland’s national animal." },
+        { icon: "🐨", category: "Animal superpowers", text: "Koalas have fingerprints that look remarkably similar to human fingerprints." },
+        { icon: "🧱", category: "Remarkable animals", text: "Wombats make cube-shaped poop." },
+        { icon: "🗼", category: "Engineering", text: "The Eiffel Tower can grow taller in summer as its iron expands in the heat." },
+        { icon: "⚡", category: "Weather", text: "A lightning bolt can heat the air around it to temperatures hotter than the Sun’s surface." },
+        { icon: "🐦", category: "Birds", text: "Hummingbirds are the only birds that can fly backward." },
+        { icon: "🌌", category: "Outer space", text: "Sound cannot travel through the vacuum of space because there is no air to carry it." },
+        { icon: "🍯", category: "Food", text: "When stored sealed and dry, honey can remain edible for an extraordinarily long time." },
+        { icon: "🦐", category: "Ocean life", text: "A shrimp’s heart is located in its head region." },
+        { icon: "☁️", category: "Weather", text: "A large cumulus cloud can contain hundreds of thousands of kilograms of water droplets." },
+        { icon: "🦦", category: "Animal adaptations", text: "Sea otters have some of the densest fur of any mammal, helping keep them warm in cold water." }
+      ];
+
+      const icon = document.querySelector("#fact-icon");
+      const category = document.querySelector("#fact-category");
+      const text = document.querySelector("#fact-text");
+      const button = document.querySelector("#another-fact");
+      let previousIndex = -1;
+
+      function showRandomFact() {
+        let nextIndex;
+        do {
+          nextIndex = Math.floor(Math.random() * facts.length);
+        } while (facts.length > 1 && nextIndex === previousIndex);
+
+        previousIndex = nextIndex;
+        const fact = facts[nextIndex];
+        icon.textContent = fact.icon;
+        category.textContent = fact.category;
+        text.textContent = fact.text;
+      }
+
+      button.addEventListener("click", showRandomFact);
+      showRandomFact();
+    </script>
+  </body>
+</html>
